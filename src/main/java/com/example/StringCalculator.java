@@ -19,6 +19,8 @@ public class StringCalculator {
         int result = 0;
         List<Integer> args = parseString(numberString);
         for (Integer arg: args) {
+            if (arg < 0)
+                throw new NegativeNumberException("negatives not allowed");
             result += arg;
         }
             return result;
@@ -41,6 +43,7 @@ public class StringCalculator {
                     continue;
                 }
             }
+
             String[] args = lines[i].split(delimiter);
             argsList.addAll(Arrays.stream(args).map(arg -> Integer.parseInt(arg)).collect(Collectors.toList()));
         }
