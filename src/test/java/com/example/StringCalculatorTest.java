@@ -113,7 +113,7 @@ public class StringCalculatorTest {
 
     @DisplayName("Test number of times add() method is called")
     @Test
-    @Order(8)
+    @Order(9)
     public void testGetCalledCount()
     {
         int calledCount = stringCalculator.getCalledCount();
@@ -135,5 +135,19 @@ public class StringCalculatorTest {
             assertEquals(3, result);
     }
 
+    @DisplayName("Allow delimiter with multiple chars")
+    @ValueSource(strings = {"//;;\n2;;3;;45", "//%%\n3%%6","//,,\n2"})
+    @ParameterizedTest
+    @Order(8)
+    public void addHandleDelimiterWithMultipleChar(String arg)
+    {
+        int result = stringCalculator.add(arg);
+        if(arg.equals("//;\n2;3;45"))
+            assertEquals(50, result);
+        if(arg.equals("//%\n3%6"))
+            assertEquals(9,result);
+        if(arg.equals("//,\n2"))
+            assertEquals(2, result);
+    }
 
 }
