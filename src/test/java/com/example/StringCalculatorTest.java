@@ -6,8 +6,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Test String Calculator")
 public class StringCalculatorTest {
@@ -83,9 +85,28 @@ public class StringCalculatorTest {
     @Test
     public void checkExceptionForNegativeNumber()
     {
-        assertThrows(NegativeNumberException.class, () -> {
+       NegativeNumberException exception = assertThrows(NegativeNumberException.class, () -> {
             stringCalculator.add("-1,3,5");
         });
+       String expectedMessage =  "negatives not allowed";
+       String actual = exception.getMessage();
+       assertTrue(actual.contains(expectedMessage));
+    }
+
+    @DisplayName("Throws exception if negative number and check the numbers")
+    @Test
+    public void checkExceptionForNegativeNumbers()
+    {
+        NegativeNumberException negativeNumberException = assertThrows(NegativeNumberException.class, () -> {
+            stringCalculator.add("-1,3,-5");
+        });
+        String expectedMessage =  "negatives not allowed";
+        String actual = negativeNumberException.getMessage();
+        assertTrue(actual.contains(expectedMessage));
+
+        List<Integer> negativeIntegers = negativeNumberException.getNumbers();
+        assertTrue(negativeIntegers.contains(-1));
+        assertTrue(negativeIntegers.contains(-5));
     }
 
 

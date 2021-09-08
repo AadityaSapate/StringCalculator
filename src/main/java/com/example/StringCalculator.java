@@ -2,6 +2,7 @@ package com.example;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,7 +21,7 @@ public class StringCalculator {
         List<Integer> args = parseString(numberString);
         for (Integer arg: args) {
             if (arg < 0)
-                throw new NegativeNumberException("negatives not allowed");
+                throw new NegativeNumberException("negatives not allowed", Collections.emptyList());
             result += arg;
         }
             return result;
