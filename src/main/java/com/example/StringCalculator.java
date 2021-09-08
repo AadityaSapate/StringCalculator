@@ -1,6 +1,10 @@
 package com.example;
 
+import java.net.Inet4Address;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class StringCalculator {
     public static void main(String[] args){
@@ -12,15 +16,22 @@ public class StringCalculator {
         if(numberString.equals(""))
             return 0;
         int result = 0;
-        Integer[] args = parseString(numberString);
+        List<Integer> args = parseString(numberString);
         for (Integer arg: args)
             result += arg;
         return result;
     }
 
-    private Integer[] parseString(String numberString)
+    private List<Integer> parseString(String numberString)
     {
-        String[] args = numberString.split(",");
-        return  Arrays.stream(args).map(arg -> Integer.parseInt(arg)).toArray(size -> new Integer[size]);
+        List<Integer> argsList = new ArrayList<>();
+        String[] lines = numberString.split("\n");
+        for (String line: lines)
+        {
+            String[] args = line.split(",");
+            argsList.addAll(Arrays.stream(args).map(arg -> Integer.parseInt(arg)).collect(Collectors.toList()));
+        }
+
+        return argsList;
     }
 }
