@@ -1,9 +1,10 @@
 package com.example;
 
-import java.net.Inet4Address;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class StringCalculator {
@@ -24,11 +25,23 @@ public class StringCalculator {
 
     private List<Integer> parseString(String numberString)
     {
+        Pattern p = Pattern.compile("//(.*)");
+        String delimiter = ",";
         List<Integer> argsList = new ArrayList<>();
         String[] lines = numberString.split("\n");
-        for (String line: lines)
+        for (int i=0; i< lines.length; i++)
         {
-            String[] args = line.split(",");
+            if(i == 0)
+            {
+                Matcher matcher = p.matcher(lines[i]);
+                if(matcher.find())
+                {
+                    delimiter = matcher.group(1);
+                    continue;
+                }
+            }
+
+            String[] args = lines[i].split(delimiter);
             argsList.addAll(Arrays.stream(args).map(arg -> Integer.parseInt(arg)).collect(Collectors.toList()));
         }
 

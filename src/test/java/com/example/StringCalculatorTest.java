@@ -53,4 +53,22 @@ public class StringCalculatorTest {
         if(arg.equals("1\n2"))
             assertEquals(3, result);
     }
+
+
+    @DisplayName("Allow new delimiter")
+    @ValueSource(strings = {"//;\n2;3;45", "//%\n3%6","//,\n2"})
+    @ParameterizedTest
+    public void addHandleNewDelimiter(String arg)
+    {
+        StringCalculator stringCalculator = new StringCalculator();
+        int result = stringCalculator.add(arg);
+        if(arg.equals("//;\n2;3;45"))
+            assertEquals(50, result);
+        if(arg.equals("//%\n3%6"))
+            assertEquals(9,result);
+        if(arg.equals("//,\n2"))
+            assertEquals(2, result);
+    }
+
+
 }
