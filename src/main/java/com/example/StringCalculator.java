@@ -27,7 +27,8 @@ public class StringCalculator {
         for (Integer arg: args) {
             if (arg < 0)
                 negativeNumbers.add(arg);
-            result += arg;
+            if(arg <= 1000)
+                result += arg;
         }
         if(!negativeNumbers.isEmpty())
             throw new NegativeNumberException("negatives not allowed", negativeNumbers);

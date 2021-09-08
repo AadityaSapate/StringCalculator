@@ -113,17 +113,17 @@ public class StringCalculatorTest {
 
     @DisplayName("Test number of times add() method is called")
     @Test
-    @Order(7)
+    @Order(8)
     public void testGetCalledCount()
     {
         int calledCount = stringCalculator.getCalledCount();
-        assertEquals(14, calledCount);
+        assertEquals(17, calledCount);
     }
 
     @DisplayName("Number bigger then 1000 should be ignored")
     @ValueSource(strings = {"1,2,3,45,1001", "1,3,6,1003","1,2,1009"})
     @ParameterizedTest
-    @Order(2)
+    @Order(7)
     public void addIgnoreBiggerThen1000(String arg)
     {
         int result = stringCalculator.add(arg);
