@@ -117,7 +117,7 @@ public class StringCalculatorTest {
     public void testGetCalledCount()
     {
         int calledCount = stringCalculator.getCalledCount();
-        assertEquals(17, calledCount);
+        assertEquals(21, calledCount);
     }
 
     @DisplayName("Number bigger then 1000 should be ignored")
@@ -159,4 +159,5 @@ public class StringCalculatorTest {
         int result = stringCalculator.add(arg);
         assertEquals(50, result);
     }
+
 }

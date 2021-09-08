@@ -18,7 +18,6 @@ public class StringCalculator {
     public int add(String numberString)
     {
         this.calledCount++;
-        System.out.println(calledCount);
         if(numberString.equals(""))
             return 0;
         int result = 0;
@@ -37,7 +36,10 @@ public class StringCalculator {
 
     private List<Integer> parseString(String numberString)
     {
-        Pattern p = Pattern.compile("//(.*)");
+        String customDelimiter = "//(.*)";
+        String multiDelimiters = "\\[(.*?)]";
+        Pattern customDelimiterPattern = Pattern.compile(customDelimiter);
+        Pattern multiDelimiterPattern = Pattern.compile(multiDelimiters);
         String delimiter = ",";
         List<Integer> argsList = new ArrayList<>();
         String[] lines = numberString.split("\n");
@@ -45,15 +47,27 @@ public class StringCalculator {
         {
             if(i == 0)
             {
-                Matcher matcher = p.matcher(lines[i]);
+                Matcher matcher = customDelimiterPattern.matcher(lines[i]);
                 if(matcher.find())
                 {
                     delimiter = matcher.group(1);
+                    Matcher matchMultiDelimiters = multiDelimiterPattern.matcher(delimiter);
+                    StringBuilder stringBuilder = new StringBuilder();
+                    while (matchMultiDelimiters.find()) {
+
+                            stringBuilder.append(matchMultiDelimiters.group(1));
+                            stringBuilder.append("|");
+                    }
+                    if(stringBuilder.length() > 0)
+                    {
+                        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+                        delimiter = stringBuilder.toString();
+                    }
                     continue;
                 }
             }
 
-            String[] args = lines[i].split(delimiter);
+            String[] args = lines[i].split(delimiter.toString());
             argsList.addAll(Arrays.stream(args).map(arg -> Integer.parseInt(arg)).collect(Collectors.toList()));
         }
 
