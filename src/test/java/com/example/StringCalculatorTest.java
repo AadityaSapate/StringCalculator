@@ -1,9 +1,7 @@
 package com.example;
 
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -12,20 +10,21 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Test String Calculator")
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class StringCalculatorTest {
-    private StringCalculator stringCalculator;
+    private static StringCalculator stringCalculator;
 
-    @BeforeEach
-    public void initBeforeEach(){
+    @BeforeAll
+    public static void initBeforeAll(){
         stringCalculator = new StringCalculator();
     }
 
     @DisplayName("First methods take 0, 1 or 2 numbers")
     @ValueSource(strings = {"", "1","1,2"})
     @ParameterizedTest
+    @Order(1)
     public void add(String arg)
     {
-        StringCalculator stringCalculator = new StringCalculator();
         int result = stringCalculator.add(arg);
         if(arg.equals(""))
             assertEquals(0, result);
@@ -38,9 +37,9 @@ public class StringCalculatorTest {
     @DisplayName("Allow unknown number of numbers")
     @ValueSource(strings = {"1,2,3,45", "1,3,6","1,2"})
     @ParameterizedTest
+    @Order(2)
     public void addWithUnknownNumbers(String arg)
     {
-        StringCalculator stringCalculator = new StringCalculator();
         int result = stringCalculator.add(arg);
         if(arg.equals("1,2,3,45"))
             assertEquals(51, result);
@@ -53,6 +52,7 @@ public class StringCalculatorTest {
     @DisplayName("Allow new lines")
     @ValueSource(strings = {"1\n2,3,45", "1\n3,6","1\n2"})
     @ParameterizedTest
+    @Order(3)
     public void addHandleNewLines(String arg)
     {
         StringCalculator stringCalculator = new StringCalculator();
@@ -69,9 +69,9 @@ public class StringCalculatorTest {
     @DisplayName("Allow new delimiter")
     @ValueSource(strings = {"//;\n2;3;45", "//%\n3%6","//,\n2"})
     @ParameterizedTest
+    @Order(4)
     public void addHandleNewDelimiter(String arg)
     {
-        StringCalculator stringCalculator = new StringCalculator();
         int result = stringCalculator.add(arg);
         if(arg.equals("//;\n2;3;45"))
             assertEquals(50, result);
@@ -83,6 +83,7 @@ public class StringCalculatorTest {
 
     @DisplayName("Throws exception if negative number")
     @Test
+    @Order(5)
     public void checkExceptionForNegativeNumber()
     {
        NegativeNumberException exception = assertThrows(NegativeNumberException.class, () -> {
@@ -95,6 +96,7 @@ public class StringCalculatorTest {
 
     @DisplayName("Throws exception if negative number and check the numbers")
     @Test
+    @Order(6)
     public void checkExceptionForNegativeNumbers()
     {
         NegativeNumberException negativeNumberException = assertThrows(NegativeNumberException.class, () -> {
@@ -111,6 +113,7 @@ public class StringCalculatorTest {
 
     @DisplayName("Test number of times add() method is called")
     @Test
+    @Order(7)
     public void testGetCalledCount()
     {
         int calledCount = stringCalculator.getCalledCount();
