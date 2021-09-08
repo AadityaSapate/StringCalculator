@@ -18,9 +18,10 @@ public class StringCalculator {
             return 0;
         int result = 0;
         List<Integer> args = parseString(numberString);
-        for (Integer arg: args)
+        for (Integer arg: args) {
             result += arg;
-        return result;
+        }
+            return result;
     }
 
     private List<Integer> parseString(String numberString)
@@ -40,7 +41,6 @@ public class StringCalculator {
                     continue;
                 }
             }
-
             String[] args = lines[i].split(delimiter);
             argsList.addAll(Arrays.stream(args).map(arg -> Integer.parseInt(arg)).collect(Collectors.toList()));
         }

@@ -1,13 +1,22 @@
 package com.example;
 
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DisplayName("Test String Calculator")
 public class StringCalculatorTest {
+    private StringCalculator stringCalculator;
+
+    @BeforeEach
+    public void initBeforeEach(){
+        stringCalculator = new StringCalculator();
+    }
 
     @DisplayName("First methods take 0, 1 or 2 numbers")
     @ValueSource(strings = {"", "1","1,2"})
@@ -68,6 +77,15 @@ public class StringCalculatorTest {
             assertEquals(9,result);
         if(arg.equals("//,\n2"))
             assertEquals(2, result);
+    }
+
+    @DisplayName("Throws exception if negative number")
+    @Test
+    public void checkExceptionForNegativeNumber()
+    {
+        assertThrows(NegativeNumberException.class, () -> {
+            stringCalculator.add("-1,3,5");
+        });
     }
 
 
