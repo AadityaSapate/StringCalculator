@@ -109,5 +109,13 @@ public class StringCalculatorTest {
         assertTrue(negativeIntegers.contains(-5));
     }
 
+    @DisplayName("Test number of times add() method is called")
+    @Test
+    public void testGetCalledCount()
+    {
+        int calledCount = stringCalculator.getCalledCount();
+        assertEquals(14, calledCount);
+    }
+
 
 }

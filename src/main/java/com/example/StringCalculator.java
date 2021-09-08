@@ -9,6 +9,9 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class StringCalculator {
+
+    private static int calledCount = 0;
+
     public static void main(String[] args){
 
     }
@@ -18,13 +21,16 @@ public class StringCalculator {
         if(numberString.equals(""))
             return 0;
         int result = 0;
+        List<Integer> negativeNumbers = new ArrayList<>();
         List<Integer> args = parseString(numberString);
         for (Integer arg: args) {
             if (arg < 0)
-                throw new NegativeNumberException("negatives not allowed", Collections.emptyList());
+                negativeNumbers.add(arg);
             result += arg;
         }
-            return result;
+        if(!negativeNumbers.isEmpty())
+            throw new NegativeNumberException("negatives not allowed", negativeNumbers);
+        return result;
     }
 
     private List<Integer> parseString(String numberString)
@@ -50,5 +56,10 @@ public class StringCalculator {
         }
 
         return argsList;
+    }
+
+    public int getCalledCount()
+    {
+        return calledCount;
     }
 }
