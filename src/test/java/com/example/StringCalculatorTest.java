@@ -120,5 +120,20 @@ public class StringCalculatorTest {
         assertEquals(14, calledCount);
     }
 
+    @DisplayName("Number bigger then 1000 should be ignored")
+    @ValueSource(strings = {"1,2,3,45,1001", "1,3,6,1003","1,2,1009"})
+    @ParameterizedTest
+    @Order(2)
+    public void addIgnoreBiggerThen1000(String arg)
+    {
+        int result = stringCalculator.add(arg);
+        if(arg.equals("1,2,3,45,1001"))
+            assertEquals(51, result);
+        if(arg.equals("1,3,6,1003"))
+            assertEquals(10,result);
+        if(arg.equals("1,2,1009"))
+            assertEquals(3, result);
+    }
+
 
 }
