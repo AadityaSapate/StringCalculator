@@ -4,6 +4,7 @@ package com.example;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.Mockito;
 
 import java.util.List;
 
@@ -13,10 +14,12 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class StringCalculatorTest {
     private static StringCalculator stringCalculator;
+    private static StringCalDao stringCalDao;
 
     @BeforeAll
     public static void initBeforeAll(){
-        stringCalculator = new StringCalculator();
+        stringCalDao = new StringCalDao();
+        stringCalculator = new StringCalculator(stringCalDao);
     }
 
     @DisplayName("First methods take 0, 1 or 2 numbers")
@@ -55,7 +58,7 @@ public class StringCalculatorTest {
     @Order(3)
     public void addHandleNewLines(String arg)
     {
-        StringCalculator stringCalculator = new StringCalculator();
+        StringCalculator stringCalculator = new StringCalculator(stringCalDao);
         int result = stringCalculator.add(arg);
         if(arg.equals("1\n2,3,45"))
             assertEquals(51, result);
@@ -159,5 +162,14 @@ public class StringCalculatorTest {
         int result = stringCalculator.add(arg);
         assertEquals(50, result);
     }
+
+    @Test
+    public void checkIfInsertIsCalled(){
+        StringCalDao stringCalDao = Mockito.mock(StringCalDao.class);
+        StringCalculator stringCalculator = new StringCalculator(stringCalDao);
+        stringCalculator.add("1,2");
+        Mockito.verify(stringCalDao, Mockito.times(1)).insert("1,2");
+    }
+
 
 }

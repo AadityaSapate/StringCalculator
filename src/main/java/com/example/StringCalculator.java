@@ -11,8 +11,15 @@ public class StringCalculator {
 
     private static int calledCount = 0;
 
+    private StringCalDao stringCalDao;
+
+
     public static void main(String[] args){
 
+    }
+
+    public StringCalculator(StringCalDao stringCalDao){
+        this.stringCalDao = stringCalDao;
     }
 
     public int add(String numberString)
@@ -31,6 +38,7 @@ public class StringCalculator {
         }
         if(!negativeNumbers.isEmpty())
             throw new NegativeNumberException("negatives not allowed", negativeNumbers);
+        stringCalDao.insert(numberString);
         return result;
     }
 
